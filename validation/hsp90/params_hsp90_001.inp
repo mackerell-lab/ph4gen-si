@@ -1,0 +1,70 @@
+
+
+#####################################################################
+SILCS_RULES  /home/vustach/SILCSMC/classification_files/silcs_classification_rules_2018_generic_apolar_scale_halogen_1b.dat
+CGENFF_RULES /opt/mackerell/apps/molcal/silcsbio.develop//data/cgenff.rules
+CGENFF_PAR   /opt/mackerell/apps/molcal/silcsbio.develop//data/par_all36_cgenff.prm
+GFE_CAP  3.0
+
+MIN_STEPS 10000
+OUTMINPDBFILE min.pdb
+OUTMINLOGFILE min.log
+
+MC_MOVE_RANGE  1.0  180.0  180.0
+MC_STEPS 10000
+
+SIM_ANNEAL_MOVE_RANGE  0.2 9.0 9.0
+SIM_ANNEAL_STEPS  40000
+
+DELTAE_TOLERANCE 0.5
+TOT_RUNS 250
+DELTA_LGFE_BUFF 10.0
+SILCS_LGFE_NORMALIZE false
+#####################################################################
+
+RANDOM_INIT_ORIENT true
+SIMULATION_CENTER -1.897 10.373 24.978
+SIMULATION_RADIUS 10.0
+
+!FORMAT OF SPECIFYING MAPS: SILCSMAP  <TYPE>  <FILENAME>
+SILCSMAP BENC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.apolar.gfe.map       0.167
+SILCSMAP PRPC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.apolar.gfe.map       0.333
+SILCSMAP MEOO /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.meoo.gfe.map       1
+SILCSMAP FORN /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.forn.gfe.map       1
+SILCSMAP FORO /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.foro.gfe.map       1
+SILCSMAP MAMN /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.mamn.gfe.map       1
+SILCSMAP MAMC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.mamn.gfe.map       1
+SILCSMAP ACEO /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.aceo.gfe.map       0.5
+SILCSMAP ACEC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.acec.gfe.map       1
+SILCSMAP AALO /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.aalo.gfe.map       1
+SILCSMAP AALC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.aalc.gfe.map       1
+SILCSMAP IMIN /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.imin.gfe.map       1
+SILCSMAP IMIH /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.iminh.gfe.map       1
+SILCSMAP GENN /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.apolar.gfe.map       0.333
+SILCSMAP GEND /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.hbdon.gfe.map       0.5
+#with DMEO there are four GENA probes
+SILCSMAP GENA /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.hbacc.gfe.map       0.25
+SILCSMAP GEHC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.gehc.gfe.map       0.333
+#halogen maps
+SILCSMAP FETX /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.fetx.gfe.map       1
+SILCSMAP FETC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.fetc.gfe.map       1
+SILCSMAP TFEX /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.tfex.gfe.map       0.333
+SILCSMAP TFEC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.tfec.gfe.map       1
+SILCSMAP FLBX /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.flbx.gfe.map       1
+SILCSMAP FLBC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.flbc.gfe.map       1
+SILCSMAP CLEX /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.clex.gfe.map       1
+SILCSMAP CLEC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.clec.gfe.map       1
+SILCSMAP CLBX /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.clbx.gfe.map       1
+SILCSMAP CLBC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.clbc.gfe.map       1
+SILCSMAP BRBX /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.brbc.gfe.map       1
+SILCSMAP BRBC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.brbc.gfe.map       1
+SILCSMAP DMEO /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.dmeo.gfe.map       1
+SILCSMAP DMEC /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.dmec.gfe.map       0.5
+SILCSMAP EXCL /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.excl.map           1
+SILCSMAP NCLA /home/vustach/SILCSMC/maps/silcs_fragmaps_2jjc_water_hal_gena/maps/2jjc.zero.map           1
+
+OUTMCPDBFILEPREFIX pdb/hsp90_001_1
+OUTMCLOGFILEPREFIX log/hsp90_001_1
+
+LIGAND_SDF /home/vustach/prot_validation_set/pdbs_and_ligands/hsp90/abbvie_o3d_aligned_binding_may9/hsp90_001.sdf
+

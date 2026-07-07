@@ -1,0 +1,70 @@
+
+
+#####################################################################
+SILCS_RULES  /home/vustach/SILCSMC/classification_files/silcs_classification_rules_2018_generic_apolar_scale_halogen_1b.dat
+CGENFF_RULES /opt/mackerell/apps/molcal/silcsbio.develop//data/cgenff.rules
+CGENFF_PAR   /opt/mackerell/apps/molcal/silcsbio.develop//data/par_all36_cgenff.prm
+GFE_CAP  3.0
+
+MIN_STEPS 10000
+OUTMINPDBFILE min.pdb
+OUTMINLOGFILE min.log
+
+MC_MOVE_RANGE  1.0  180.0  180.0
+MC_STEPS 10000
+
+SIM_ANNEAL_MOVE_RANGE  0.2 9.0 9.0
+SIM_ANNEAL_STEPS  40000
+
+DELTAE_TOLERANCE 0.5
+TOT_RUNS 250
+DELTA_LGFE_BUFF 10.0
+SILCS_LGFE_NORMALIZE false
+#####################################################################
+
+RANDOM_INIT_ORIENT true
+SIMULATION_CENTER -19.547 40.874 -9.566
+SIMULATION_RADIUS 10.0
+
+!FORMAT OF SPECIFYING MAPS: SILCSMAP  <TYPE>  <FILENAME>
+SILCSMAP BENC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.apolar.gfe.map       0.167
+SILCSMAP PRPC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.apolar.gfe.map       0.333
+SILCSMAP MEOO /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.meoo.gfe.map       1
+SILCSMAP FORN /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.forn.gfe.map       1
+SILCSMAP FORO /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.foro.gfe.map       1
+SILCSMAP MAMN /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.mamn.gfe.map       1
+SILCSMAP MAMC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.mamn.gfe.map       1
+SILCSMAP ACEO /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.aceo.gfe.map       0.5
+SILCSMAP ACEC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.acec.gfe.map       1
+SILCSMAP AALO /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.aalo.gfe.map       1
+SILCSMAP AALC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.aalc.gfe.map       1
+SILCSMAP IMIN /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.imin.gfe.map       1
+SILCSMAP IMIH /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.iminh.gfe.map       1
+SILCSMAP GENN /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.apolar.gfe.map       0.333
+SILCSMAP GEND /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.hbdon.gfe.map       0.5
+#with DMEO there are four GENA probes
+SILCSMAP GENA /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.hbacc.gfe.map       0.25
+SILCSMAP GEHC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.gehc.gfe.map       0.333
+#halogen maps
+SILCSMAP FETX /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.fetx.gfe.map       1
+SILCSMAP FETC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.fetc.gfe.map       1
+SILCSMAP TFEX /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.tfex.gfe.map       0.333
+SILCSMAP TFEC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.tfec.gfe.map       1
+SILCSMAP FLBX /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.flbx.gfe.map       1
+SILCSMAP FLBC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.flbc.gfe.map       1
+SILCSMAP CLEX /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.clex.gfe.map       1
+SILCSMAP CLEC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.clec.gfe.map       1
+SILCSMAP CLBX /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.clbx.gfe.map       1
+SILCSMAP CLBC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.clbc.gfe.map       1
+SILCSMAP BRBX /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.brbc.gfe.map       1
+SILCSMAP BRBC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.brbc.gfe.map       1
+SILCSMAP DMEO /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.dmeo.gfe.map       1
+SILCSMAP DMEC /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.dmec.gfe.map       0.5
+SILCSMAP EXCL /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.excl.map           1
+SILCSMAP NCLA /home/vustach/SILCSMC/maps/silcs_fragmaps_4ypw_water_hal_gena/maps/4ypw_prot_nocter.zero.map           1
+
+OUTMCPDBFILE pdb/4ypw_1.pdb
+OUTMCLOGFILE log/4ypw_1.log
+
+LIGAND_MOL2 /home/vustach/prot_validation_set/pdbs_and_ligands/trmd/gsk_may31/4ypw.mol2
+

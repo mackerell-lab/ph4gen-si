@@ -1,0 +1,41 @@
+ ====================================================================
+                 SILCS-Pharm Program    Version A2.3   
+     Copyright (C) 2013-2015 Wenbo Yu, Alexander D. MacKerell Jr.
+ and University of Maryland, School of Pharmacy. All Rights Reserved.
+ When use, please cite: J. Comput. Aided Mol. Des. 2014, 28, 491-507.
+                        J. Chem. Inf. Model. 2015, 55, 407–420.      
+ ====================================================================
+  
+Parameters used for the current SILCS-Pharm run:
+ Aromatic map file, GFE cutoff:
+maps/fxr.benc.gfe.map                              -1.000
+ Aliphatic map file, GFE cutoff:
+maps/fxr.prpc.gfe.map                              -1.000
+ Apolar map file, GFE cutoff:
+maps/fxr.apolar.gfe.map                            -1.000
+ H-bond donor map file, GFE cutoff:
+maps/fxr.hbdon.gfe.map                             -1.000
+ H-bond acceptor map file, GFE cutoff:
+maps/fxr.hbacc.gfe.map                             -1.000
+ ACEO map file, GFE cutoff:
+maps/fxr.acec.gfe.map                              -1.800
+ MAMN map file, GFE cutoff:
+maps/fxr.mamn.gfe.map                              -1.800
+ Exclusion map name:
+ maps/fxr.excl.map                                                                                   
+ Using option: 2: One sphere to define the binding pocket
+ Sphere center coordinates x,y,z:
+ 42.745 13.049  2.046
+ Sphere radius:
+ 10.000
+ 
+ Messages from the current run:
+ There are            0  AROM features.
+ There are            3  ALIP features.
+ There are            6  AROM|ALIP features.
+ There are            1  HDON features.
+ There are            4  HACC features.
+ There are            1  donor/acceptor joint features.
+ There are            0  - charged features.
+ There are            2  + charged features.
+ There are in total   17 features being detected by SILCS-Pharm.
