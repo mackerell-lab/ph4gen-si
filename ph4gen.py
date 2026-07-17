@@ -102,7 +102,7 @@ def enumerate_hypotheses(features_df, center):
   hypotheses = np.array(list(itertools.combinations(indices, N_feat)))
   return hypotheses
 
-def analyze_hypotheses(features_df, center, n_feat):
+def analyze_hypotheses(features_df, center, n_feat, core):
   indices = features_df.index
   # NOTE: $m is & or "AND"; $m$h is &! or "AND NOT"
   aro_hyd_indices = features_df[(features_df['type'].str.contains('Aro|Hyd', regex=True))].index
@@ -135,10 +135,7 @@ def analyze_hypotheses(features_df, center, n_feat):
   fgfe = features_df['FGFE'].to_numpy()
   pgfe = np.array([fgfe[idx_list].sum() for idx_list in hypotheses])
 
-  ## Identify if hypothesis contains certain core features
-  #core_set = set(core[:args.n_core])
-  #mask_core = np.array([core_set <= set(map(int, h)) for h in hypotheses])
-  
+ 
   df = pd.DataFrame({
   "hypothesis": list(hypotheses),
   #"mask_core": mask_core,
@@ -156,16 +153,22 @@ def analyze_hypotheses(features_df, center, n_feat):
   "centroid_dist": centroid_dist
   })
 
+  ## Identify if hypothesis contains certain core features
+  core_set = set(core)
+  mask_core = np.array([core_set <= set(map(int, h)) for h in hypotheses])
+  
+  df = df[mask_core]
+
   df["hypothesis_list"] = df["hypothesis"].apply(lambda h: [int(hi) for hi in h])
   df["hypothesis_set"]  = df["hypothesis"].apply(lambda h: set([int(hi) for hi in h]))
-  #df['core'] = [core]*len(df)
+  df['core'] = [core]*len(df)
 
   return df
 
 def multiple_hypotheses_lengths(features_df, center, llist=[4,5], core=np.array([])):
   all_df = pd.DataFrame()
   for nfeat in llist:
-    df = analyze_hypotheses(features_df, center, n_feat=nfeat)
+    df = analyze_hypotheses(features_df, center, n_feat=nfeat, core=core)
     all_df = pd.concat([all_df, df])
   return all_df
 
@@ -248,8 +251,8 @@ def main():
   parser.add_argument(      '--hypotheses', required=False, help='Input txt file containing hypotheses as comma-separated integers (features)')
   parser.add_argument(      '--core',                   help='(Optional) Indices of desired features. NOTE: Indices start from 0')
   parser.add_argument(      '--center',                 help='(Optional) Cordinates of binding site: x,y,z; if not supplied, calculated from feature distribution')
-  parser.add_argument('-d', '--distance_cutoff', default=10.0, type=float, help='(Optional) Distance cutoff of features (Ang); default=%(default)s')
   parser.add_argument(      '--topk',    type=int,   default=20,     help="Top k hypotheses to be selected; default=%(default)s")
+  #parser.add_argument('-d', '--distance_cutoff', default=10.0, type=float, help='(Optional) Distance cutoff of features (Ang); default=%(default)s')
   #parser.add_argument('-n', '--n_feat', default=4, type=int, help='(Optional) Number of features per hypothesis; default=%(default)s')
   #parser.add_argument('-m', '--m_aro',  default=2, type=int, help='(Optional) Number of aromatic/hydrophobics per hypothesis; default=%(default)s')
   parser.add_argument('-p', '--prefix', required=False, help='(Optional) Prefix of output ph4 (MOE-format) file')
@@ -267,7 +270,7 @@ def main():
   
   if args.core:
     core = np.array([float(i) for i in args.core.split(',')])
-    write_ph4('core.ph4', features_df.iloc[core])
+    #write_ph4('core.ph4', features_df.iloc[core])
   else:
     core = np.array([])
 
@@ -288,7 +291,7 @@ def main():
       name=''
       for f in h:
         name+=f"{f}_"
-      write_ph4(f"{name[:-1]}.ph4", features_df.iloc[h])
+      write_ph4(f"{args.prefix}{name[:-1]}.ph4", features_df.iloc[h])
 
 if __name__ == "__main__":
   main()
