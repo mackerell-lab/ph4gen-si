@@ -135,7 +135,6 @@ def analyze_hypotheses(features_df, center, n_feat, core):
   fgfe = features_df['FGFE'].to_numpy()
   pgfe = np.array([fgfe[idx_list].sum() for idx_list in hypotheses])
 
- 
   df = pd.DataFrame({
   "hypothesis": list(hypotheses),
   #"mask_core": mask_core,
@@ -165,9 +164,9 @@ def analyze_hypotheses(features_df, center, n_feat, core):
 
   return df
 
-def multiple_hypotheses_lengths(features_df, center, llist=[4,5], core=np.array([])):
+def multiple_hypotheses_lengths(features_df, center, nlist=[4,5], core=np.array([])):
   all_df = pd.DataFrame()
-  for nfeat in llist:
+  for nfeat in nlist:
     df = analyze_hypotheses(features_df, center, n_feat=nfeat, core=core)
     all_df = pd.concat([all_df, df])
   return all_df
@@ -251,6 +250,7 @@ def main():
   parser.add_argument(      '--hypotheses', required=False, help='Input txt file containing hypotheses as comma-separated integers (features)')
   parser.add_argument(      '--core',                   help='(Optional) Indices of desired features. NOTE: Indices start from 0')
   parser.add_argument(      '--center',                 help='(Optional) Cordinates of binding site: x,y,z; if not supplied, calculated from feature distribution')
+  parser.add_argument(      '--nfeat', default="4,5",   help='(Optional) Number(s) of features per hypotheses: 4,5 ; default=%(default)s')
   parser.add_argument(      '--topk',    type=int,   default=20,     help="Top k hypotheses to be selected; default=%(default)s")
   #parser.add_argument('-d', '--distance_cutoff', default=10.0, type=float, help='(Optional) Distance cutoff of features (Ang); default=%(default)s')
   #parser.add_argument('-n', '--n_feat', default=4, type=int, help='(Optional) Number of features per hypothesis; default=%(default)s')
@@ -275,10 +275,12 @@ def main():
     core = np.array([])
 
   if not args.hypotheses:
-    print(f'Scoring mode will output {args.topk} hypotheses of length 4-5')
+    print(f'Scoring mode will output {args.topk} hypotheses of length {args.nfeat}')
     # todo: deal with nfeat options
-    df = multiple_hypotheses_lengths(features_df, center, llist=[4,5], core=core)
-    #for nfeat in llist if not args.n_feat else [args.n_feat]:
+    
+    nlist = [int(i) for i in args.nfeat.split(',')]
+    df = multiple_hypotheses_lengths(features_df, center, nlist=nlist, core=core)
+    #for nfeat in nlist if not args.n_feat else [args.n_feat]:
     scores_df = predict_score(df, args.topk, args.prefer)
     print(scores_df[scores_df['keep']][['score','hypothesis']].head(args.topk))
     hypotheses = scores_df[scores_df['keep']]['hypothesis']
@@ -291,7 +293,10 @@ def main():
       name=''
       for f in h:
         name+=f"{f}_"
-      write_ph4(f"{args.prefix}{name[:-1]}.ph4", features_df.iloc[h])
+      if args.prefix:
+        write_ph4(f"{args.prefix}{name[:-1]}.ph4", features_df.iloc[h])
+      else:
+        write_ph4(f"{name[:-1]}.ph4", features_df.iloc[h])
 
 if __name__ == "__main__":
   main()
