@@ -102,7 +102,7 @@ def enumerate_hypotheses(features_df, center):
   hypotheses = np.array(list(itertools.combinations(indices, N_feat)))
   return hypotheses
 
-def analyze_hypotheses(features_df, center, n_feat, core):
+def analyze_hypotheses(features_df, center, n_feat, core, exclude):
   indices = features_df.index
   # NOTE: $m is & or "AND"; $m$h is &! or "AND NOT"
   aro_hyd_indices = features_df[(features_df['type'].str.contains('Aro|Hyd', regex=True))].index
@@ -137,7 +137,6 @@ def analyze_hypotheses(features_df, center, n_feat, core):
 
   df = pd.DataFrame({
   "hypothesis": list(hypotheses),
-  #"mask_core": mask_core,
   "PGFE": pgfe,
   "aro_count": aro_count,
   "acc_count":acc_count,
@@ -152,22 +151,29 @@ def analyze_hypotheses(features_df, center, n_feat, core):
   "centroid_dist": centroid_dist
   })
 
-  ## Identify if hypothesis contains certain core features
+  # Identify if hypothesis contains certain core features
   core_set = set(core)
   mask_core = np.array([core_set <= set(map(int, h)) for h in hypotheses])
-  
-  df = df[mask_core]
 
+  # excluded features
+  if len(exclude) > 0:
+    mask_exclude = np.array([any(e in h for e in exclude) for h in hypotheses])
+  else:
+    mask_exclude = np.zeros(len(hypotheses), dtype=bool)
+  
+  mask_keep = mask_core & ~mask_exclude
+  df = df[mask_keep]
+  
   df["hypothesis_list"] = df["hypothesis"].apply(lambda h: [int(hi) for hi in h])
   df["hypothesis_set"]  = df["hypothesis"].apply(lambda h: set([int(hi) for hi in h]))
   df['core'] = [core]*len(df)
 
   return df
 
-def multiple_hypotheses_lengths(features_df, center, nlist=[4,5], core=np.array([])):
+def multiple_hypotheses_lengths(features_df, center, nlist=[4,5], core=np.array([]), exclude=np.array([])):
   all_df = pd.DataFrame()
   for nfeat in nlist:
-    df = analyze_hypotheses(features_df, center, n_feat=nfeat, core=core)
+    df = analyze_hypotheses(features_df, center, n_feat=nfeat, core=core, exclude=exclude)
     all_df = pd.concat([all_df, df])
   return all_df
 
@@ -249,12 +255,11 @@ def main():
   parser.add_argument('-f', '--features', required=True,  help='Input features.dat (SILCS-format) file')
   parser.add_argument(      '--hypotheses', required=False, help='Input txt file containing hypotheses as comma-separated integers (features)')
   parser.add_argument(      '--core',                   help='(Optional) Indices of desired features. NOTE: Indices start from 0')
+  parser.add_argument(      '--exclude',                   help='(Optional) Indices of features to be excluded. NOTE: Indices start from 0')
   parser.add_argument(      '--center',                 help='(Optional) Cordinates of binding site: x,y,z; if not supplied, calculated from feature distribution')
   parser.add_argument(      '--nfeat', default="4,5",   help='(Optional) Number(s) of features per hypotheses: 4,5 ; default=%(default)s')
   parser.add_argument(      '--topk',    type=int,   default=20,     help="Top k hypotheses to be selected; default=%(default)s")
   #parser.add_argument('-d', '--distance_cutoff', default=10.0, type=float, help='(Optional) Distance cutoff of features (Ang); default=%(default)s')
-  #parser.add_argument('-n', '--n_feat', default=4, type=int, help='(Optional) Number of features per hypothesis; default=%(default)s')
-  #parser.add_argument('-m', '--m_aro',  default=2, type=int, help='(Optional) Number of aromatic/hydrophobics per hypothesis; default=%(default)s')
   parser.add_argument('-p', '--prefix', required=False, help='(Optional) Prefix of output ph4 (MOE-format) file')
   parser.add_argument(      '--prefer', required=False, default='small', help='(Optional) Prefer small or large hypotheses')
   args = parser.parse_args()
@@ -267,19 +272,18 @@ def main():
   else:
     print('--center not provided; center of features will be used.')
     center = features_df[['x','y','z']].to_numpy().mean(axis=0)
-  
-  if args.core:
-    core = np.array([float(i) for i in args.core.split(',')])
-    #write_ph4('core.ph4', features_df.iloc[core])
-  else:
-    core = np.array([])
+
+  core = np.array([])
+  if args.core: core = np.array([int(i) for i in args.core.split(',')])
+  exclude=np.array([])
+  if args.exclude: exclude = np.array([int(i) for i in args.exclude.split(',')])
 
   if not args.hypotheses:
     print(f'Scoring mode will output {args.topk} hypotheses of length {args.nfeat}')
     # todo: deal with nfeat options
     
     nlist = [int(i) for i in args.nfeat.split(',')]
-    df = multiple_hypotheses_lengths(features_df, center, nlist=nlist, core=core)
+    df = multiple_hypotheses_lengths(features_df, center, nlist=nlist, core=core, exclude=exclude)
     #for nfeat in nlist if not args.n_feat else [args.n_feat]:
     scores_df = predict_score(df, args.topk, args.prefer)
     print(scores_df[scores_df['keep']][['score','hypothesis']].head(args.topk))
