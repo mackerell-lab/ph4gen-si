@@ -259,6 +259,7 @@ print(f'Intercept: {intercept:.2f}')
 
 ## remove redundancy
 all_df = ( all_df .groupby('system', group_keys=True) .apply(ph4gen.select_top_k, k=args.ktop, prefer=args.prefer))
+#all_df = all_df[all_df['keep']]
 all_df = all_df.reset_index()
 
 ## no redundancy removal scheme
@@ -270,10 +271,22 @@ all_df = all_df.sort_values(["system", "score"], ascending=[True, False])
 all_df["rank"] = all_df.groupby("system").cumcount() + 1
 all_df["01rank"] = ( (all_df["rank"] - 1) / (all_df.groupby("system")["rank"].transform("max") - 1))
 
+# rank for only the "kept" hypothesis
+all_df["keeprank"] = (
+  all_df.groupby("system")["keep"]
+  .cumsum()
+  .where(all_df["keep"])
+)
+
 pd.set_option('display.max_rows', 1000)
 #print(all_df[(all_df['keep']) & (all_df['system']=='bace')][['system','score','hypothesis','expt','expt_support']+selected])
 #print(all_df[(all_df['keep'])][['system','score','hypothesis_set','expt','expt_support']+selected])
 #exit()
+
+print(all_df[(all_df['system']=='jnk1') & (all_df['keep'])].head(10))
+#print(all_df[all_df['system']=='bace'].head(10))
+#print(all_df[all_df['system']=='fxr'].head(10))
+#print(all_df[all_df['system']=='trmd'].head(10))
 
 ##############################
 # Plot Score Ranking
@@ -357,10 +370,10 @@ summary.columns = ['system', 'TN', 'FN', 'FP', 'TP', 'Precision', 'Recall']
 # add the minimum rank (best) of the expt=true in score-based ranking
 min_rank = (
   all_df[all_df["expt"] == True]
-  .groupby("system")["rank"]
+  .groupby("system")["keeprank"]
   .min()
   .reset_index()
-  .rename(columns={"rank": "min_expt_rank"})
+  .rename(columns={"keeprank": "min_expt_rank"})
 )
 summary = summary.merge(min_rank, on="system", how="left")
 #if args.train_val == 'training':
